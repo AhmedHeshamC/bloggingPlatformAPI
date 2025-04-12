@@ -44,3 +44,31 @@ exports.validateUpdate = [
             return tags.every(tag => typeof tag === 'string' && tag.trim().length > 0 && tag.length <= 50);
         }).withMessage('Each tag must be a non-empty string up to 50 characters.'),
 ];
+
+exports.validateRegister = [
+    body('name')
+        .trim()
+        .notEmpty().withMessage('Name is required.')
+        .isLength({ min: 2, max: 100 }).withMessage('Name must be between 2 and 100 characters.'),
+    body('email')
+        .trim()
+        .notEmpty().withMessage('Email is required.')
+        .isEmail().withMessage('Must be a valid email address.')
+        .normalizeEmail(),
+    body('password')
+        .notEmpty().withMessage('Password is required.')
+        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long.')
+        // Optional: Add more password complexity rules if needed
+        // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
+        // .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number.')
+];
+
+exports.validateLogin = [
+    body('email')
+        .trim()
+        .notEmpty().withMessage('Email is required.')
+        .isEmail().withMessage('Must be a valid email address.')
+        .normalizeEmail(),
+    body('password')
+        .notEmpty().withMessage('Password is required.')
+];

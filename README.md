@@ -4,12 +4,13 @@ A RESTful API for a personal blogging platform, built with Node.js, Express, and
 
 ## Features
 
-- Create, read, update, and delete blog posts
+- Create, read, update, and delete blog posts (versioned: `/api/v1`)
+- User registration and login (`/api/v1/auth`)
 - Search/filter posts by term (title, content, or category)
 - Input validation
 - Rate limiting
 - Error handling middleware
-- JWT-based authentication for protected routes (Not fully implemented yet!)
+- JWT-based authentication for protected routes
 
 ## Getting Started
 
@@ -32,42 +33,84 @@ A RESTful API for a personal blogging platform, built with Node.js, Express, and
    ```
 
 3. **Configure environment variables:**
-   - Copy `.env.example` to `.env` and set your values (see `.env` for JWT secret).
+   - Create a `.env` file (you can copy `.env.example`) and set your values:
+     - `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+     - `JWT_SECRET` (a long, random, secret string for signing tokens)
+     - `JWT_EXPIRES_IN` (e.g., `1h`, `7d`)
+     - `BCRYPT_SALT_ROUNDS` (e.g., `10`, `12` - higher is more secure but slower)
 
 4. **Set up the database:**
    - Create a MySQL database (e.g., `blog_db`).
-   - Run the SQL in `schema.sql` to create the `posts` table.
+   - Run the SQL in `schema.sql` to create the `posts` and `users` tables.
 
 5. **Start the server:**
    ```bash
    npm run dev
    ```
-   The API will be available at `http://localhost:3000`.
+   The API will be available at `http://localhost:3000`. Version 1 endpoints are under `/api/v1`.
 
 ## Project Structure
 
 ```
-/controllers      # Route handlers
-/models           # Database models
-/routes           # Express route definitions
+/controllers      # Route handlers (posts, auth)
+/models           # Database models (posts, users)
+/routes           # Express route definitions (posts, auth, protected)
 /middleware       # Custom middleware (auth, validation, error handling, rate limiting)
 /config           # Database configuration
+.env.example      # Example environment variables
+.env              # Actual environment variables (ignored by git)
+schema.sql        # Database schema
 ```
 
 ---
 
-## API Documentation
+## API Documentation (Version 1)
 
-### Authentication (To be completed)
+Base Path: `/api/v1`
 
-Some routes (e.g., `/api/protected`) require a JWT in the `Authorization` header:  
-`Authorization: Bearer <token>`
+### Authentication
+
+Authentication is handled via JSON Web Tokens (JWT).
+
+1.  **Register:** Use the `POST /api/v1/auth/register` endpoint.
+2.  **Login:** Use the `POST /api/v1/auth/login` endpoint to receive a JWT.
+3.  **Access Protected Routes:** Include the token in the `Authorization` header for protected routes:
+    `Authorization: Bearer <your_jwt_token>`
 
 ### Endpoints
 
+#### Authentication Routes (`/auth`)
+
+-   **POST** `/auth/register`
+    -   **Body:**
+        ```json
+        {
+          "name": "Test User",
+          "email": "test@example.com",
+          "password": "password123"
+        }
+        ```
+    -   **Responses:**
+        -   `201 Created` with user info (excluding password)
+        -   `400 Bad Request` on validation error
+        -   `409 Conflict` if email already exists
+
+-   **POST** `/auth/login`
+    -   **Body:**
+        ```json
+        {
+          "email": "test@example.com",
+          "password": "password123"
+        }
+        ```
+    -   **Responses:**
+        -   `200 OK` with JWT token and user info
+        -   `400 Bad Request` on validation error
+        -   `401 Unauthorized` on invalid credentials
+
 #### Create a Blog Post
 
-- **POST** `/posts`
+- **POST** `/api/v1/posts`
 - **Body:**
   ```json
   {
@@ -83,21 +126,21 @@ Some routes (e.g., `/api/protected`) require a JWT in the `Authorization` header
 
 #### Get All Blog Posts
 
-- **GET** `/posts`
+- **GET** `/api/v1/posts`
 - **Query:** `?term=searchTerm` (optional)
 - **Responses:**
   - `200 OK` with array of posts
 
 #### Get a Single Blog Post
 
-- **GET** `/posts/:id`
+- **GET** `/api/v1/posts/:id`
 - **Responses:**
   - `200 OK` with the post
   - `404 Not Found` if not found
 
 #### Update a Blog Post
 
-- **PUT** `/posts/:id`
+- **PUT** `/api/v1/posts/:id`
 - **Body:** (same as create)
 - **Responses:**
   - `200 OK` with updated post
@@ -106,14 +149,14 @@ Some routes (e.g., `/api/protected`) require a JWT in the `Authorization` header
 
 #### Delete a Blog Post
 
-- **DELETE** `/posts/:id`
+- **DELETE** `/api/v1/posts/:id`
 - **Responses:**
   - `204 No Content` on success
   - `404 Not Found` if not found
 
 #### Protected Route Example
 
-- **GET** `/api/protected`
+- **GET** `/api/v1/protected`
 - **Header:** `Authorization: Bearer <token>`
 - **Responses:**
   - `200 OK` with greeting
@@ -137,6 +180,11 @@ Ahmed Hesham
 ## Acknowledgments
 - [Express](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
 - [MySQL](https://www.mysql.com/) - The world's most popular open source database  
+- [bcrypt](https://github.com/kelektiv/node.bcrypt.js) - Library for hashing passwords
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) For generating and verifying JSON Web Tokens (JWTs)
+- [Express Rate Limit](https://github.com/nfriedly/express-rate-limit) - Middleware to limit repeated requests to public APIs
+- [Express Validator](https://express-validator.github.io/) A set of express.js middlewares for validating and sanitizing user input
+- [mysql2](https://github.com/sidorares/node-mysql2) - A fast and reliable MySQL client for Node.js
 - [Markdown](https://daringfireball.net/projects/markdown/) A lightweight markup language for formatting text
 - ThunderClient - A powerful API client for testing and debugging APIs
 - Open Source Community - For all the resources and libraries that made this project possible

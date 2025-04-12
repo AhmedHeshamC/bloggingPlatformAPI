@@ -17,6 +17,19 @@ CREATE TABLE IF NOT EXISTS posts (
     FULLTEXT INDEX idx_fulltext_search (title, content, category) -- Optional: Add fulltext index for efficient searching if using specific search features
 );
 
+-- Add users table for authentication
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL, -- Store hashed passwords, not plain text
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Optional: Add index for faster email lookups
+ALTER TABLE users ADD INDEX idx_email (email);
+
 -- Note on 'tags':
 -- If using the JSON type, you can store arrays directly, e.g., '["Tech", "Programming"]'.
 -- If using TEXT, you would store it as a string, e.g., '["Tech","Programming"]' or 'Tech,Programming',
