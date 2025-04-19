@@ -170,22 +170,18 @@ Errors are returned as JSON with a `message` field and, in development, a `stack
 
 ---
 
-## License
-
-MIT
-
-## Author
-Ahmed Hesham    
-
-## Acknowledgments
-- [Express](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
-- [MySQL](https://www.mysql.com/) - The world's most popular open source database  
-- [bcrypt](https://github.com/kelektiv/node.bcrypt.js) - Library for hashing passwords
-- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) For generating and verifying JSON Web Tokens (JWTs)
-- [Express Rate Limit](https://github.com/nfriedly/express-rate-limit) - Middleware to limit repeated requests to public APIs
-- [Express Validator](https://express-validator.github.io/) A set of express.js middlewares for validating and sanitizing user input
-- [mysql2](https://github.com/sidorares/node-mysql2) - A fast and reliable MySQL client for Node.js
-- [Markdown](https://daringfireball.net/projects/markdown/) A lightweight markup language for formatting text
-- ThunderClient - A powerful API client for testing and debugging APIs
-- Open Source Community - For all the resources and libraries that made this project possible
+##Project URLs
 - https://roadmap.sh/projects/blogging-platform-api
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch
+3. Write tests
+4. Submit a PR
+
+Please adhere to the existing code style and coverage requirements.
+
+---
+
+© 2025 Ahmed Hesham. MIT License.
