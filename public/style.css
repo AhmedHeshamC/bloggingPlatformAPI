@@ -1,0 +1,137 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+/* Form Styling */
+#auth-forms, #create-post-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#register-form, #login-form, #post-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* So padding doesn't increase width */
+    width: 100%;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px; /* Add some space above the button */
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+/* Specific button styling if needed */
+#logout-button {
+    background-color: #d9534f;
+    margin-top: 20px; /* Give it some space from the posts section */
+}
+
+#logout-button:hover {
+    background-color: #c9302c;
+}
+
+
+/* Posts Section Styling */
+#posts-section h2 {
+    text-align: center;
+}
+
+#posts-container {
+    margin-top: 20px;
+}
+
+.post { /* Assuming individual posts will have this class */
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.post h3 {
+    margin-top: 0;
+    color: #337ab7;
+}
+
+.post p {
+    margin-bottom: 5px;
+}
+
+.post small { /* For post metadata like author/date */
+    color: #777;
+    font-size: 0.9em;
+}
+
+
+/* Initially hidden elements */
+#create-post-form,
+#logout-button {
+    display: none;
+}

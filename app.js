@@ -5,12 +5,16 @@ const postRoutes = require('./routes/posts');
 const protectedRoutes = require('./routes/protectedRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes'); // Import auth routes
+const path = require('path'); // Import path module
 
 const app = express();
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
 
 // Enforce HTTPS in production (moved from server.js for better structure)
 if (process.env.NODE_ENV === 'production') {
@@ -27,7 +31,7 @@ app.use(rateLimiter);
 
 // Basic Route
 app.get('/', (req, res) => {
-  res.send('Blogging Platform API V1 is running!');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // --- API Version 1 Routes ---
