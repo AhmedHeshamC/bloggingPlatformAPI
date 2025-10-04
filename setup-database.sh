@@ -6,11 +6,16 @@
 echo "🚀 Setting up Blogging Platform Database..."
 
 # Database credentials
-DB_HOST="localhost"
-DB_USER="root"
-DB_PASSWORD="NewStrongP@ssw0rd"
-DB_NAME="blogDb"
+DB_HOST="${DB_HOST:-localhost}"
+DB_USER="${DB_USER:-root}"
+DB_PASSWORD="${DB_PASSWORD}"
+DB_NAME="${DB_NAME:-blogDb}"
 
+if [ -z "$DB_PASSWORD" ]; then
+  echo "❌ Error: DB_PASSWORD environment variable is not set."
+  echo "Please set DB_PASSWORD before running this script."
+  exit 1
+fi
 # MySQL command
 MYSQL="mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWORD"
 
