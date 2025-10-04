@@ -1,7 +1,7 @@
 -- SQL script to create the 'posts' table for the Blogging Platform API
 
--- Make sure to create the database first, e.g., CREATE DATABASE blog_db;
--- Then select the database, e.g., USE blog_db;
+-- Make sure to create the database first, e.g., CREATE DATABASE blogDb;
+-- Then select the database, e.g., USE blogDb;
 
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS posts (
     tags JSON, -- Using JSON type is recommended if available (MySQL 5.7.8+)
     -- Alternative for older MySQL versions or other preferences:
     -- tags TEXT, -- Store as comma-separated string or JSON string
+    authorId INT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_category (category), -- Optional: Add index for faster category filtering
@@ -29,6 +30,10 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Optional: Add index for faster email lookups
 ALTER TABLE users ADD INDEX idx_email (email);
+
+-- Add foreign key constraint for posts-author relationship
+ALTER TABLE posts ADD CONSTRAINT fk_posts_author
+FOREIGN KEY (authorId) REFERENCES users(id) ON DELETE SET NULL;
 
 -- Note on 'tags':
 -- If using the JSON type, you can store arrays directly, e.g., '["Tech", "Programming"]'.
